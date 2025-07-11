@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+# --- CONSTANTS ---
 mass = 1; # kg 
 spring_const = 20 # N/m
 damping_coeff = 2 # Ns/m
