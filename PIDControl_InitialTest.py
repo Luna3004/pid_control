@@ -22,25 +22,29 @@ acceleration =0
 
 error = 0 
 int_error = 0 
-prev_error = 0 
+prev_error = 0
+disturbance_force = 0 
 
 setpoint = 1
 
 time_list = []
 position_list = []
 velocity_list = []
+acceleration_list=[]
 force_list = []
 error_list = []
 
 for step in range(num_steps):
     current_time = step * time_step
     
+    if 1.5 < current_time < 1.6:
+        disturbance_force = 5
     error = setpoint - position
     int_error += error * time_step
     deriv_error = (error - prev_error)/time_step
     
     force = kp * error + ki * int_error + kd * deriv_error
-    a = (force - damping_coeff * velocity - spring_const*position) /mass
+    a = (force + disturbance_force - damping_coeff * velocity - spring_const*position) /mass
     
     acceleration = a
     velocity += acceleration * time_step
@@ -49,6 +53,7 @@ for step in range(num_steps):
     time_list.append(current_time)
     position_list.append(position)
     velocity_list.append(velocity)
+    acceleration_list.append(acceleration)
     force_list.append(force)
     error_list.append(error)
     
@@ -83,4 +88,23 @@ plt.ylabel("Error (m)")
 plt.grid(True)
 plt.legend()
 plt.show()
+
+plt.figure(figsize=(10,5))
+plt.plot(time_list, velocity_list, color = 'blue', label="Velocity")
+plt.title("Velocity vs Time")
+plt.xlabel("Time (s)")
+plt.ylabel("Velocity (m/s)")
+plt.grid(True)
+plt.legend()
+plt.show()
+
+plt.figure(figsize=(10,5))
+plt.plot(time_list, acceleration_list, color = 'green', label="Acceleration")
+plt.title("Acceleration vs Time")
+plt.xlabel("Time (s)")
+plt.ylabel("Acceleration (m/s^2")
+plt.grid(True)
+plt.legend()
+plt.show()
+
 
