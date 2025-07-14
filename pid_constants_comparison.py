@@ -6,9 +6,6 @@ mass = 1
 spring_const = 10
 damping_coeff = 2
 
-
-ki = 100.0
-
 setpoint = 1
 
 time_step = 0.001
